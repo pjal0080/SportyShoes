@@ -1,6 +1,6 @@
 package com.assessment.sportyshoes.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.assessment.sportyshoes.users.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,18 +15,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
 
-
-    @Autowired
-    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userService = userService;
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);
-//        provider.setUserDetailsService();
+        provider.setUserDetailsService(userService);
 
         return provider;
 
