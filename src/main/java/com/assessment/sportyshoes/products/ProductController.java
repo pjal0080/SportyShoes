@@ -1,5 +1,6 @@
 package com.assessment.sportyshoes.products;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,20 @@ public class ProductController {
     @GetMapping(path = "api/v1/getproducts/category/{category}")
     public List<Product> getProductsByCategory(@PathVariable String category){
         return productService.getAllProductByCategory(category);
+    }
+
+    @DeleteMapping(path = "api/v1/deleteproduct/{id}")
+    public void deleteProduct(@PathVariable Long id) throws Exception {
+        productService.deleteProductById(id);
+
+    }
+
+    @PutMapping("api/v1/updateproduct/{id}")
+    public void updateProduct(@PathVariable Long id,
+                              @RequestBody Product product)
+            throws NotFoundException {
+        productService.updateProductById(id,product);
+
     }
 
 }

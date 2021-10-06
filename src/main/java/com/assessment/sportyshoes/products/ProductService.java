@@ -1,10 +1,16 @@
 package com.assessment.sportyshoes.products;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -37,7 +43,30 @@ public class ProductService {
         return productRepository.findAllByColor(color);
     }
 
-    public List<Product> getAllProductByCategory(String category){
-        return productRepository.findAllByCategory(category);
+    public List<Product> getAllProductByCategory(String category){return productRepository.findAllByCategory(category);}
+
+    public void deleteProductById(Long id) throws Exception {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("product with id %s not found",id)));
+        productRepository.delete(product);
+    }
+
+
+    public void updateProductById(Long id, Product newProduct) throws NotFoundException {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("product with id %s not found",id)));
+
+        product.setProductName(newProduct.getProductName());
+        product.setProductBrand(newProduct.getProductBrand());
+        product.setProductColor(newProduct.getProductColor());
+        product.setDiscount(newProduct.getDiscount());
+        product.setPrice(newProduct.getPrice());
+        product.setProductCategory(newProduct.getProductCategory());
+        product.setProductSeason(newProduct.getProductSeason());
+        product.setQuantity(newProduct.getQuantity());
+
+        productRepository.save(product);
+
     }
 }
