@@ -1,18 +1,17 @@
 package com.assessment.sportyshoes.products;
 
+import com.assessment.sportyshoes.orders.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 public class Product {
 
     @Id
@@ -41,6 +40,9 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductBrand productBrand;
 
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Order> orders;
+
     public Product(String productName,
                    Long price,
                    Long discount,
@@ -59,6 +61,75 @@ public class Product {
         this.productBrand = productBrand;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getProductName() {
+        return productName;
+    }
 
+    public Long getPrice() {
+        return price;
+    }
+
+    public Long getDiscount() {
+        return discount;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public ProductSeason getProductSeason() {
+        return productSeason;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public ProductColor getProductColor() {
+        return productColor;
+    }
+
+    public ProductBrand getProductBrand() {
+        return productBrand;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public void setDiscount(Long discount) {
+        this.discount = discount;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setProductSeason(ProductSeason productSeason) {
+        this.productSeason = productSeason;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    public void setProductColor(ProductColor productColor) {
+        this.productColor = productColor;
+    }
+
+    public void setProductBrand(ProductBrand productBrand) {
+        this.productBrand = productBrand;
+    }
 }
