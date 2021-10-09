@@ -16,7 +16,7 @@ public class OrderService {
     }
 
     public List<Order> getAllOrders(){
-        return orderRepository.findAll();
+        return orderRepository.findAllByOrderByDateDesc();
     }
 
     public void order(Order order){

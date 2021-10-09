@@ -2,13 +2,14 @@ package com.assessment.sportyshoes.admin;
 
 import com.assessment.sportyshoes.orders.Order;
 import com.assessment.sportyshoes.orders.OrderService;
+import com.assessment.sportyshoes.orders.OrderView;
 import com.assessment.sportyshoes.products.Product;
 import com.assessment.sportyshoes.products.ProductService;
 import com.assessment.sportyshoes.users.User;
 import com.assessment.sportyshoes.users.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class AdminController {
     }
 
     @GetMapping(path = "/getorders")
+    @JsonView(OrderView.Base.class)
     public List<Order> getOrders(){
         return orderService.getAllOrders();
     }
@@ -100,7 +102,6 @@ public class AdminController {
        userService.changeAdminPassword(user,newPassword);
 
     }
-
 
 
 }

@@ -1,6 +1,8 @@
 package com.assessment.sportyshoes.products;
 
 import com.assessment.sportyshoes.orders.Order;
+import com.assessment.sportyshoes.orders.OrderView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +20,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id")
     private Long id;
+
     @Column(name = "product_name")
+    @JsonView(OrderView.Base.class)
     private String productName;
+
     private Long price;
     private Long discount;
     private Long quantity;
@@ -30,6 +35,7 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "product_category")
+    @JsonView(OrderView.Base.class)
     private ProductCategory productCategory;
 
     @Column(name = "product_color")

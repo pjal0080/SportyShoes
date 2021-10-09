@@ -1,6 +1,9 @@
 package com.assessment.sportyshoes.users;
 
 import com.assessment.sportyshoes.orders.Order;
+import com.assessment.sportyshoes.orders.OrderView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,12 +27,19 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
+    @JsonView(OrderView.Base.class)
     private String name;
+
+
     private String email;
+
+
     private String password;
+
 
     @Column(name = "phone_no")
     private String phoneNo;
+
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
@@ -48,12 +58,14 @@ public class User implements UserDetails {
 
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(simpleGrantedAuthority);
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -64,26 +76,30 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
 
-
+    @JsonIgnore
     public Long getId() {
         return id;
     }
