@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -45,5 +46,17 @@ public class UserService implements UserDetailsService {
     public List<User> getAllUsers(){
         return userRepository.getRegisteredUsers("USER");
     }
+
+    public void changeAdminPassword(User user, String newPassword){
+        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+    }
+
+    public User findUserByEmail(String email) {
+            return userRepository.findUserByEmail(email);
+    }
+
+
 
 }

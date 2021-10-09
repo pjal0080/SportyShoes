@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Query(value = "SELECT * FROM users WHERE user_role=:user",nativeQuery = true)
     List<User> getRegisteredUsers(@Param("user") String user);
+
+    User findUserByEmail(String email);
 }

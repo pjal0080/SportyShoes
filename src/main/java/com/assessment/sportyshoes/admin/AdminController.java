@@ -8,6 +8,8 @@ import com.assessment.sportyshoes.users.User;
 import com.assessment.sportyshoes.users.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +21,14 @@ public class AdminController {
     private final UserService userService;
     private final ProductService productService;
     private final OrderService orderService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AdminController(UserService userService, ProductService productService, OrderService orderService) {
+    public AdminController(UserService userService, ProductService productService, OrderService orderService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.productService = productService;
         this.orderService = orderService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -83,6 +87,20 @@ public class AdminController {
         productService.updateProductById(id,product);
 
     }
+
+    @PostMapping("/changepassword")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseBody
+    public void changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @RequestParam("email") String email){
+
+       User user = userService.findUserByEmail(email);
+       String encodedOldPassword =  bCryptPasswordEncoder.encode(oldPassword);
+
+       System.out.println(user.getName());
+       userService.changeAdminPassword(user,newPassword);
+
+    }
+
 
 
 }
