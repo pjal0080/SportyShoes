@@ -91,15 +91,12 @@ public class AdminController {
     }
 
     @PostMapping("/changepassword")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-    @ResponseBody
-    public void changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @RequestParam("email") String email){
+    public void changePassword(@RequestBody AdminPasswordChangeRequest adminPasswordChangeRequest){
 
-       User user = userService.findUserByEmail(email);
-       String encodedOldPassword =  bCryptPasswordEncoder.encode(oldPassword);
 
+       User user = userService.findUserByEmail(adminPasswordChangeRequest.getEmail());
        System.out.println(user.getName());
-       userService.changeAdminPassword(user,newPassword);
+       userService.changeAdminPassword(user, adminPasswordChangeRequest.getNewPassword());
 
     }
 

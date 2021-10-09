@@ -15,10 +15,12 @@ public class UserController {
         this.orderService = orderService;
     }
 
-    @PostMapping(path = "order")
-    public void order(@RequestBody Order order){
-        orderService.order(order);
-    }
+//    @PostMapping(path = "order")
+//    public void order(@RequestBody Order order){
+//
+//        System.out.println(order.getUser());
+//        orderService.order(order);
+//    }
 
 
 }
