@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
@@ -53,6 +54,12 @@ public class AdminController {
     @GetMapping(path = "/getproducts")
     public List<Product> getProducts(){
         return productService.getAllProducts();
+    }
+
+
+    @GetMapping(path = "/getproducts/{id}")
+    public Optional<Product> getProductById(@PathVariable Long id){
+        return productService.getProductById(id);
     }
 
     @GetMapping(path = "/getproducts/season/{season}")
