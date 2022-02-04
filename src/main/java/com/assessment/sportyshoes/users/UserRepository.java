@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    Optional<User> getUserByEmail(String email);
+//    Optional<User> getUserByEmail(String email);
 
     @Query(value = "SELECT * FROM users WHERE user_role=:user",nativeQuery = true)
     List<User> getRegisteredUsers(@Param("user") String user);
